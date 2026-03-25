@@ -20,6 +20,7 @@ import {
   FileCheck
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import DOMPurify from 'dompurify';
 
 // --- Editable Component ---
 
@@ -45,7 +46,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   };
 
   if (!isEditing) {
-    return <Tag className={className} dangerouslySetInnerHTML={{ __html: String(value) }} />;
+    return <Tag className={className} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(String(value)) }} />;
   }
 
   return (
@@ -54,7 +55,7 @@ const EditableText: React.FC<EditableTextProps> = ({
       suppressContentEditableWarning
       onBlur={handleInput}
       className={`${className} editable-highlight cursor-text min-w-[20px] inline-block empty:before:content-['Type_here...'] empty:before:text-gray-500`}
-      dangerouslySetInnerHTML={{ __html: String(value) }}
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(String(value)) }}
     />
   );
 };
